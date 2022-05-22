@@ -25,8 +25,7 @@ function App() {
     [null, "About Me", null],
   ]
 
-  const keyHandle = (event) => {
-    if (!event.code.match(/Arrow/gi)) return true
+  const getSelectedPos = () => {
     let row, col
     for (let r = 0; r < layout.length; r++) {
       let item = layout[r]
@@ -38,6 +37,12 @@ function App() {
         }
       }
     }
+    return [row, col]
+  }
+
+  const keyHandle = (event) => {
+    if (!event.code.match(/Arrow/gi)) return true
+    let [row, col] = getSelectedPos()
     if (!row && row !== 0) return
     switch (event.code) {
       case "ArrowUp":
@@ -67,11 +72,25 @@ function App() {
     setRerender(!rerender)
     scroller.scrollToEl(document.getElementById(selectedRef.current ?? selected), true)
   }
+  const scroll = (event) => {
+    if (scrolling || scroller.isScrolling()) return
+    let [row, col] = getSelectedPos()
+    if (event.deltaY < 0) row -= 1
+    else row += 1
+    setScrolling(true)
+    let sel = layout[row]?.[col]
+    
+    if (sel) {
+      select(sel)
+      scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {setScrolling(false)})
+    }
+  }
 
   useEffect(() => {
     scroller.scrollToEl(document.getElementById(selected))
     window.addEventListener("resize", (event) => {return resizer(event)})
-    window.addEventListener("keydown", (event) => {return keyHandle(event)})
+    document.addEventListener("keydown", (event) => {return keyHandle(event)})
+    document.addEventListener("wheel", (event) => {return scroll(event)})
   }, [])
 
   const render = () => {

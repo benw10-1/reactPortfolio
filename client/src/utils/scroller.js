@@ -2,18 +2,17 @@ import { Bezier } from "bezier-js"
 
 function scroller(el=window) {
     let scrolling = false
+    if (el.scrollX !== 0 && el.scrollY !== 0 && (!el.scrollX || !el.scrollY)) throw Error("Invalid element")
     el.addEventListener("scroll", (event) => {
         if (!scrolling) event.preventDefault()
     })
-    if (el.scrollX !== 0 && el.scrollY !== 0 && (!el.scrollX || !el.scrollY)) throw Error("Invalid element")
-
     // custom bez curve
-    const bez = new Bezier(0, 0, 0, .05, .63, .78, 1, 1)
+    const bez = new Bezier(0, 0, .42, .0, .58, 1, 1, 1)
 
     function smoothFrom(v1, v2, p) {
-        let { x } = bez.compute(p)
+        let { x, y } = bez.compute(p)
         // at 0 return v1, at 1, return v2
-        return v1 + (v2 - v1) * x
+        return v1 + (v2 - v1) * y
     }
 
     async function animationLoop({ dest: [x, y], time=750 }) {
