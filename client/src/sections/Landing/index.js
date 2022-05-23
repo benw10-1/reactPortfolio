@@ -25,7 +25,7 @@ function Landing() {
     }
 
     return (
-      <div style={contst} id="intro">
+      <div style={contst}>
         <div style={txtst} dangerouslySetInnerHTML={markUp("Hi, my name is Ben", ["ben"])} />
         <div style={txtst} dangerouslySetInnerHTML={markUp("I'm a Fullstack Developer", ["Fullstack Developer"])} />
         <div style={tipst}>(Hover over or click the arrows, scroll, or use the arrow keys to explore my site!)</div>

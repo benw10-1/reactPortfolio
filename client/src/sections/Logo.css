@@ -1,0 +1,14 @@
+#logo {
+    stroke-dasharray: 411;
+    stroke-dashoffset: 411;
+}
+
+#logo.animate {
+    animation: signAnimate 5s ease-out forwards;
+}
+
+@keyframes signAnimate {
+    to {
+        stroke-dashoffset: 0;
+    }
+}

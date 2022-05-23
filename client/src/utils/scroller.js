@@ -10,7 +10,7 @@ function scroller(el=window) {
     const bez = new Bezier(0, 0, .42, .0, .58, 1, 1, 1)
 
     function smoothFrom(v1, v2, p) {
-        let { x, y } = bez.compute(p)
+        let { y } = bez.compute(p)
         // at 0 return v1, at 1, return v2
         return v1 + (v2 - v1) * y
     }

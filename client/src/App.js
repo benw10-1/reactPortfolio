@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect"
 import {
   useMediaQuery
 } from '@mui/material';
-import { Omni, Arrows } from "./sections"
+import { Omni, Arrows, Logo } from "./sections"
 
 function App() {
   const [rerender, setRerender] = useState(false)
@@ -70,24 +70,23 @@ function App() {
   }
   const resizer = (event) => {
     setRerender(!rerender)
-    scroller.scrollToEl(document.getElementById(selectedRef.current ?? selected), true)
+    scroller.scrollToEl(document.getElementById((selectedRef.current ?? selected).replace(" ", "")), true)
   }
   const scroll = (event) => {
-    if (scrolling || scroller.isScrolling()) return
+    if (scrolling || scroller.isScrolling() || event.ctrlKey) return false
     let [row, col] = getSelectedPos()
     if (event.deltaY < 0) row -= 1
     else row += 1
-    setScrolling(true)
     let sel = layout[row]?.[col]
     
     if (sel) {
-      select(sel)
-      scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {setScrolling(false)})
+      setScrolling(true)
+      scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {setScrolling(false); select(sel)})
     }
   }
 
   useEffect(() => {
-    scroller.scrollToEl(document.getElementById(selected))
+    scroller.scrollToEl(document.getElementById(selected.replace(" ", "")))
     window.addEventListener("resize", (event) => {return resizer(event)})
     document.addEventListener("keydown", (event) => {return keyHandle(event)})
     document.addEventListener("wheel", (event) => {return scroll(event)})
@@ -107,7 +106,7 @@ function App() {
       width: "100%",
       height: "100%",
       position: "relative",
-      background: "#264653",
+      backgroundColor: "#264653",
       margin: 0
     }
     const rowsx = {
@@ -133,11 +132,6 @@ function App() {
       let rowContent = row.map(x => {
         i += 2
         if (x) {
-          if (x === selected) return <div style={contsx} id={x.replace(" ", "")} key={i}><Arrows
-            selectHandle={[selected, select]}
-            layout={layout}
-            scroller={[scrolling, setScrolling]} /><Omni page={x} /></div>
-
           return <div style={contsx} id={x.replace(" ", "")} key={i}><Omni page={x} /></div>
         }
         return <div style={contsx} key={i} />
@@ -158,6 +152,12 @@ function App() {
   return (
     <React.Fragment>
       {render()}
+      <Arrows
+            selectHandle={[selected, select]}
+            layout={layout}
+            scroller={[scrolling, setScrolling]}
+            />
+      <Logo sel={[selected, select]} scrollers={[scrolling, setScrolling]} />
     </React.Fragment>
   );
 }

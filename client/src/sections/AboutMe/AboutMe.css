@@ -1,0 +1,19 @@
+.cont-head {
+    width: "90%";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 50px;
+    font-weight: bolder;
+    border-bottom: 2px #264653 solid;
+    color: #F4A261;
+}
+
+.main-cont {
+    width: 100%;
+    height: 100%;
+    line-height: 43px;
+    font-size: 33px;
+    color: #577684
+}
