@@ -2,15 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import scroller from "./utils/scroller";
 import "./App.css"
 import { isMobile } from "react-device-detect"
-import {
-  useMediaQuery
-} from '@mui/material';
 import { Omni, Arrows, Logo } from "./sections"
 
 function App() {
-  const [rerender, setRerender] = useState(false)
+  const [rerender, setRerender] = useState(11)
   const [selected, setSelected] = useState("intro")
-  const [scrolling, setScrolling] = useState(false)
+  const [scrolling, setScrolling] = useState(true)
 
   const selectedRef = useRef(selected)
 
@@ -69,7 +66,7 @@ function App() {
     }
   }
   const resizer = (event) => {
-    setRerender(!rerender)
+    setRerender(Math.random())
     scroller.scrollToEl(document.getElementById((selectedRef.current ?? selected).replace(" ", "")), true)
   }
 
@@ -83,24 +80,35 @@ function App() {
     if (event.deltaY < 0) row -= 1
     else row += 1
     let sel = layout[row]?.[col]
-    
+
     if (sel) {
       setScrolling(true)
-      scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {setScrolling(false); select(sel)})
+      scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => { setScrolling(false); select(sel) })
     }
   }
 
   useEffect(() => {
-    scroller.scrollToEl(document.getElementById(selected.replace(" ", "")))
-    window.addEventListener("resize", (event) => {return resizer(event)})
-    document.addEventListener("keydown", (event) => {return keyHandle(event)})
-    document.addEventListener("wheel", (event) => {return scroll(event)})
+    scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
+      setScrolling(false)
+    })
+    window.addEventListener("resize", (event) => resizer(event))
+    document.addEventListener("keydown", (event) => keyHandle(event))
+    document.addEventListener("wheel", (event) => scroll(event))
+    window.addEventListener("hashchange", (event) => {
+      window.history.replaceState({}, window.location.origin, event.oldURL)
+      setScrolling(true)
+      scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
+        setScrolling(false)
+      })
+    })
   }, [])
 
   const render = () => {
-    // if (isMobile || window.innerWidth < 600) return (
-    //   <div>Mobile</div>
-    // )
+    if (isMobile || window.innerWidth < 600) {
+      return (
+        <div>Mobile</div>
+      )
+    }
 
     let maxWidth = 0
     layout.forEach(x => {
@@ -148,23 +156,21 @@ function App() {
     }
 
     return (
-      <div style={docsx}>
-        {rendered}
-      </div>
+      <React.Fragment>
+        <div style={docsx}>
+          {rendered}
+        </div>
+        <Arrows
+          selectHandle={[selected, select]}
+          layout={layout}
+          scroller={[scrolling, setScrolling]}
+        />
+        <Logo sel={[selected, select]} scrollers={[scrolling, setScrolling]} />
+      </React.Fragment>
     )
   }
 
-  return (
-    <React.Fragment>
-      {render()}
-      <Arrows
-            selectHandle={[selected, select]}
-            layout={layout}
-            scroller={[scrolling, setScrolling]}
-            />
-      <Logo sel={[selected, select]} scrollers={[scrolling, setScrolling]} />
-    </React.Fragment>
-  );
+  return render()
 }
 
 export default App;

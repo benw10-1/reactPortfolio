@@ -11,12 +11,12 @@ import {
   Paper,
   Modal
 } from "@mui/material";
+import { markUp } from "../../utils";
 
 const projobj = Object.fromEntries(projects.map(x => {
   const cpy = { ...x }
-  delete cpy.name
 
-  return [x.name, cpy] 
+  return [x.name, cpy]
 }))
 const copyproj = projects.map(x => x)
 const tagGroups = ["data visualization"]
@@ -58,7 +58,7 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
       transition: "all .3s",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-around",
+      justifyContent: "start",
       alignItems: "center",
       position: "relative",
       "&:hover": {
@@ -70,6 +70,9 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
       fontSize: "38px",
       color: "#E9C46A",
       lineHeight: "1.1em",
+      position: "absolute",
+      top: "30%",
+      transform: "translateY(-50%)",
       "&:hover": {
         cursor: "pointer"
       }
@@ -79,13 +82,12 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
         <Grid item={true} sx={contsx} >
           <Paper sx={papersx} onClick={(event) => {
             if (event.defaultPrevented) return false
-            // if (event.composedPath().find((el) => el.classList.has("ignore"))) return false
             setModalKey(obj.name)
             handleOpen()
           }} elevation={7} >
             <Box sx={overSX}>
-              <Box classes={"ignore"} sx={headsx} onClick={(event) => {event.preventDefault(); window.location.assign(obj.deployed)}}>{obj.name}</Box>
-              <GitHub classes={"ignore"} onClick={(event) => {event.preventDefault(); window.location.assign(obj.repo)}} />
+              <Box classes={"ignore"} sx={headsx} onClick={(event) => { event.preventDefault(); window.open(obj.deployed, "_blank") }}>{obj.name}</Box>
+              <GitHub classes={"ignore"} onClick={(event) => { event.preventDefault(); window.open(obj.repo, "_blank") }} style={{ bottom: "25px", position: "absolute" }} />
             </Box>
           </Paper>
         </Grid>
@@ -97,7 +99,13 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
 }
 
 function TabPanel({ children, value, index, ...other }) {
-  const [page, setPage] = useState(0)
+  const [page, sPage] = useState(0)
+  const pageRef = useRef(page)
+
+  const setPage = (page) => {
+    sPage(page)
+    pageRef.current = page
+  }
 
   const panelst = {
     width: "900px",
@@ -114,30 +122,26 @@ function TabPanel({ children, value, index, ...other }) {
     }
   }
 
-  // useEffect(() => {
-  //   if (page !== 0) setPage(0)
-  // }, [index])
+  useEffect(() => {
+    if (page !== 0) setPage(0)
+  }, [children])
 
-  const PageIndicator = ({ index }) => {
-    const indicatorst = {
-      color: "#577684",
-      transition: "all .3s",
-      textDecoration: "underline",
-      cursor: "pointer",
-      margin: "0 10px",
-      fontSize: "37.5px",
-      fontWeight: "bolder",
-      fontFamily: "'Courier New', Courier, monospace",
-      userSelect: "none",
-      "&:hover": {
-        color: "#F4A261"
-      }
-    }
-    const selectedst = {
+  const indicatorst = {
+    color: "#577684",
+    transition: "all .3s",
+    textDecoration: "underline",
+    cursor: "pointer",
+    margin: "0 6px",
+    fontSize: "37.5px",
+    fontWeight: "bolder",
+    fontFamily: "'Courier New', Courier, monospace",
+    userSelect: "none",
+    "&:hover": {
       color: "#F4A261"
     }
-
-    return <Box sx={page === index ? { ...indicatorst, ...selectedst } : indicatorst} onClick={() => setPage(index)}>{index + 1}</Box>
+  }
+  const selectedst = {
+    color: "#F4A261"
   }
 
   const hasPagination = children.length > 6
@@ -147,7 +151,8 @@ function TabPanel({ children, value, index, ...other }) {
       {(() => {
         let indicators = []
         for (let i = 0; i < pages; i++) {
-          indicators.push(<PageIndicator key={i} index={i} />)
+          const x = i
+          indicators.push(<Box sx={pageRef.current === x ? { ...indicatorst, ...selectedst } : indicatorst} onClick={() => {setPage(x)}} key={i}>{i + 1}</Box>)
         }
 
         return indicators
@@ -170,6 +175,8 @@ function TabPanel({ children, value, index, ...other }) {
     </React.Fragment>
   )
 }
+
+// const isLink = new RegExp("^(https?://)?([\\da-z.-]+)\.([a-z.]{2,6})([\\w.-]*)*(?:/?)+$")
 
 function Projects() {
   const [tab, setTab] = useState("all")
@@ -194,7 +201,7 @@ function Projects() {
 
   let i = 0
   const projectJSX = currentProjects.map(x => {
-    let proj = <Project obj={x} grow={grow} key={x.name} tm={400 * ((i % 6) + 2)} modal={[handleOpen, setModalKey]}/>
+    let proj = <Project obj={x} grow={grow} key={x.name} tm={400 * ((i % 6) + 2)} modal={[handleOpen, setModalKey]} />
     i++
     return proj
   })
@@ -248,7 +255,7 @@ function Projects() {
             >
               <Tab label={<span style={tabst}>{`All(${projects.length})`}</span>} value={"all"} sx={tabsx} />
               {Object.keys(projectGroups).map(x => {
-                let uppered = x.replace(/^\w|(?<=\s+)\w/g, (match) => match.toUpperCase())
+                let uppered = x.replace(/(^\w)|(?:\s)\w/g, (match) => match.toUpperCase())
                 i++
                 return <Tab label={<span style={tabst}>{`${uppered}(${projectGroups[x].length})`}</span>} key={i} value={x} sx={tabsx} />
               })}
@@ -260,18 +267,46 @@ function Projects() {
     )
   }
 
-  const paperst = { 
-    outline: 0, 
-    display: "flex", 
-    flexDirection: "column", 
-    alignItems: "center", 
-    height: "85%", 
-    width: "70%", 
-    left: "50%", 
+  const paperst = {
+    outline: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    height: "85%",
+    width: "70%",
+    left: "50%",
     top: "50%",
+    padding: "10px",
     transform: "translate(-50%, -50%)",
     position: "absolute",
-    color: "#577684"
+    color: "#577684",
+    borderRadius: "18px"
+  }
+  const proj = projobj[modalKey]
+  const bannersx = {
+    backgroundImage: `url(${proj?.images?.[0]})`,
+    width: "100%",
+    backgroundPosition: "top",
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+    paddingTop: "40vh",
+  }
+  const headersx = {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    fontSize: "32px",
+    fontWeight: "bolder",
+    color: "#E76F51",
+    marginTop: "5px",
+    borderBottom: "2px solid #264653"
+  }
+  const infosx = {
+    lineHeight: "54px",
+    fontSize: "24px",
+    overflow: "auto",
+    paddingTop: "3px",
+    textIndent: "1em"
   }
 
   return (
@@ -281,13 +316,13 @@ function Projects() {
         onClose={handleClose}
         aria-labelledby="project-modal"
       >
-        {(() => {
-          return (
-            <Paper style={paperst} elevation={7}>
-              {modalKey ?? "wrong?"}
-            </Paper>
-          )
-        })()}
+        <Paper style={paperst} elevation={7}>
+          <Box sx={{ width: "100%", height: "100%", position: "relative", display: "flex", flexDirection: "column" }}>
+            <Box sx={bannersx} />
+            <Box sx={headersx}><span style={{ cursor: "pointer" }} onClick={(event) => {return proj ? window.open(proj.deployed, "_blank") : null}}>{proj?.name ?? ""}</span></Box>
+            <Box dangerouslySetInnerHTML={proj ? markUp(proj.about, proj.tags) : ""} sx={infosx}></Box>
+          </Box>
+        </Paper>
       </Modal>
       {render()}
     </React.Fragment>

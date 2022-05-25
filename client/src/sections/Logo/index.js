@@ -8,8 +8,8 @@ function Logo({ sel: [selected, select], scrollers: [scrolling, setScrolling] })
     const clickHandle = (event) => {
         if (selected !== "INTRO") {
             setScrolling(true)
-            scroller.scrollToEl(document.getElementById("INTRO")).then(() => {setScrolling(false)})
-            select("INTRO")
+            scroller.scrollToEl(document.getElementById("intro"))?.then(() => {setScrolling(false)})
+            select("intro")
         }
         setAnimating(false)
         setTimeout(() => {

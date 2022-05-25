@@ -49,7 +49,7 @@ function scroller(el=window) {
     }
 
     async function scrollTo(x, y, instant=false) {
-        if (scrolling) return null
+        if (scrolling) return new Promise((res, rej) => rej("XD"))
         if (instant) {
             el.scrollTo(x, y)
             return
@@ -58,7 +58,7 @@ function scroller(el=window) {
     }
 
     function scrollToEl(to, instant=false) {
-        if (!to) return
+        if (!to) return new Promise((res, rej) => rej("XD"))
         visited.add(to)
         const { top, left } = to.getBoundingClientRect()
         const [x, y] = [left + document.documentElement.scrollLeft, top + document.documentElement.scrollTop]
@@ -74,7 +74,6 @@ function scroller(el=window) {
     }
 
     function hasScrolledTo(el) {
-        console.log(el)
         return visited.has(el)
     }
 

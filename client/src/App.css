@@ -67,3 +67,10 @@ strong {
 img:hover {
 	cursor: pointer;
 }
+
+a:visited {
+	color: #264653
+}
+a:-webkit-any-link:active {
+    color: #264653;
+}
