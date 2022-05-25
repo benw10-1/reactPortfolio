@@ -2,15 +2,15 @@ import { AboutMe, Connect, Landing, Projects, Resume } from "./index"
 
 function Omni({ page }) {
     switch(page) {
-        case "About Me":
+        case "about me":
             return <AboutMe/>;
-        case "Connect":
+        case "connect":
             return <Connect/>;
-        case "Intro":
+        case "intro":
             return <Landing/>;
-        case "Resume":
+        case "resume":
             return <Resume/>;
-        case "Projects":
+        case "projects":
             return <Projects/>;
         default:
             return <div>what?</div>

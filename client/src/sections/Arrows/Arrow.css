@@ -1,5 +1,5 @@
 .arrow-cont {
-    font-size: xx-large;
+    font-size: 11px;
     font-family: ff-tisa-sans-web-pro, sans-serif;
     cursor: pointer;
     color: #fff;
@@ -15,6 +15,7 @@
     user-select: none;
     line-height: 1;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .animate-text {

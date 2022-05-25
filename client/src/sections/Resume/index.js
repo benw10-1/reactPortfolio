@@ -4,7 +4,7 @@ import "./Resume.css"
 
 function Resume() {
   const render = () => {
-    return <div id="resume">Resume</div>
+    return <div>Resume</div>
   }
 
   return (

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { scroller } from "../utils";
+import { scroller } from "../../utils";
 import "./Logo.css"
 
 function Logo({ sel: [selected, select], scrollers: [scrolling, setScrolling] }) {
     const [animating, setAnimating] = useState(true)
     
     const clickHandle = (event) => {
-        if (selected !== "Intro") {
+        if (selected !== "INTRO") {
             setScrolling(true)
-            scroller.scrollToEl(document.getElementById("Intro")).then(() => {setScrolling(false)})
-            select("Intro")
+            scroller.scrollToEl(document.getElementById("INTRO")).then(() => {setScrolling(false)})
+            select("INTRO")
         }
         setAnimating(false)
         setTimeout(() => {

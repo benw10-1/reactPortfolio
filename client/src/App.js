@@ -9,7 +9,7 @@ import { Omni, Arrows, Logo } from "./sections"
 
 function App() {
   const [rerender, setRerender] = useState(false)
-  const [selected, setSelected] = useState("Intro")
+  const [selected, setSelected] = useState("intro")
   const [scrolling, setScrolling] = useState(false)
 
   const selectedRef = useRef(selected)
@@ -20,9 +20,9 @@ function App() {
   }
 
   const layout = [
-    [null, "Resume", null],
-    ["Connect", "Intro", "Projects"],
-    [null, "About Me", null],
+    [null, "resume", null],
+    ["projects", "intro", "connect"],
+    [null, "about me", null],
   ]
 
   const getSelectedPos = () => {
@@ -41,7 +41,7 @@ function App() {
   }
 
   const keyHandle = (event) => {
-    if (!event.code.match(/Arrow/gi)) return true
+    if (!event.code.match(/Arrow/gi)) return false
     let [row, col] = getSelectedPos()
     if (!row && row !== 0) return
     switch (event.code) {
@@ -72,8 +72,13 @@ function App() {
     setRerender(!rerender)
     scroller.scrollToEl(document.getElementById((selectedRef.current ?? selected).replace(" ", "")), true)
   }
+
   const scroll = (event) => {
     if (scrolling || scroller.isScrolling() || event.ctrlKey) return false
+    // console.log(event.composedPath())
+    for (const x of event.composedPath()) {
+      if ((!!x.scrollLeft || !!x.scrollTop) && x !== document && x.tagName !== "HTML") return false
+    }
     let [row, col] = getSelectedPos()
     if (event.deltaY < 0) row -= 1
     else row += 1
@@ -120,7 +125,7 @@ function App() {
     }
     const docsx = {
       width: 100 * maxWidth + "vw",
-      height: 100 * layout + "vh",
+      height: 100 * layout.length + "vh",
       margin: 0,
       padding: 0
     }

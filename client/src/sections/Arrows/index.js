@@ -1,6 +1,7 @@
 import { Fade } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
-import { scroller, clamp } from "../utils";
+import { SizeMe } from "react-sizeme"
+import { scroller, clamp } from "../../utils";
 import "./Arrow.css"
 
 function Arrows({ selectHandle: [selected, setSelected], layout, scroller: [scrolling, setScrolling] }) {
@@ -11,7 +12,7 @@ function Arrows({ selectHandle: [selected, setSelected], layout, scroller: [scro
         setSelected(id)
         id = id.replace(" ", "")
         let el = document.getElementById(id)
-        scroller.scrollToEl(el).then(() => { setScrolling(false) })
+        scroller.scrollToEl(el)?.then(() => { setScrolling(false) }) ?? setScrolling(false)
     }
 
     const enterHandle = (event) => {
@@ -27,7 +28,6 @@ function Arrows({ selectHandle: [selected, setSelected], layout, scroller: [scro
         document.querySelectorAll(".animate-text").forEach(x => x.classList.remove("animate-text"))
         clearTimeout(timeout)
     }
-
     const clickHandle = (event) => {
         document.querySelectorAll(".animate-text").forEach(x => x.classList.remove("animate-text"))
         clearTimeout(timeout)
@@ -37,34 +37,27 @@ function Arrows({ selectHandle: [selected, setSelected], layout, scroller: [scro
         goToEl(sel)
     }
 
+    function Txt({ text, transform, place = "tb", width, height }) {
+        // not rotated because we are using sizeme
+        if (place === "left") transform = " translateX(-" + (height / 2 - width / 2) + "px)" + transform
+        if (place === "right") transform = " translateX(" + (height / 2 - width / 2) + "px)" + transform
+        // ref={newRef}
+        return (
+            <Fade in={!scrolling}>
+                <div className="arrow-cont" style={{ transform, fontSize: "1.3em" }} onMouseEnter={enterHandle} onMouseLeave={exitHandle} onClick={clickHandle} >
+                    <div style={{ display: "block" }}>^</div>
+                    <div style={{ display: "block" }}>{text}</div>
+                </div>
+            </Fade>
+        )
+    }
+
     const render = () => {
         const contst = {
             display: "flex",
             position: "fixed",
             justifyContent: "center",
             alignItems: "center"
-        }
-
-        function Txt({ text, transform, place = "tb" }) {
-            const newRef = useRef()
-            const [width, setWidth] = useState(0)
-            const [height, setHeight] = useState(0)
-
-            useEffect(() => {
-                setWidth(newRef?.current?.clientWidth ?? 0)
-                setHeight(newRef?.current?.clientHeight ?? 0)
-            }, [])
-
-            if (place === "left") transform = " translateX(-" + (width / 2 - height / 2) + "px)" + transform
-            if (place === "right") transform = " translateX(" + (width / 2 - height / 2) + "px)" + transform
-            return (
-                <Fade in={!scrolling}>
-                    <div className="arrow-cont" style={{ transform, fontSize: "1.3em" }} onMouseEnter={enterHandle} onMouseLeave={exitHandle} onClick={clickHandle} ref={newRef}>
-                        <div style={{ display: "block" }}>^</div>
-                        <div style={{ display: "block" }}>{text}</div>
-                    </div>
-                </Fade>
-            )
         }
 
         const arrows = []
@@ -78,14 +71,30 @@ function Arrows({ selectHandle: [selected, setSelected], layout, scroller: [scro
 
                 if (left) arrows.push((
                     <div style={{ ...contst, left: 0, top: 0, height: "100%", flexDirection: "column" }} key={"left"}>
-                        <Txt text={left} transform={"rotateZ(-90deg)"} place={"left"} />
+                        <SizeMe monitorHeight>
+                            {({ size }) => <Txt text={left} transform={"rotateZ(270deg)"} place={"left"} width={size.width} height={size.height} />}
+                        </SizeMe>
                     </div>))
                 if (right) arrows.push((
                     <div style={{ ...contst, right: 0, top: 0, height: "100%", flexDirection: "column" }} key={"right"}>
-                        <Txt text={right} transform={"rotateZ(90deg)"} place={"right"} />
+                        <SizeMe monitorHeight>
+                            {({ size }) => <Txt text={right} transform={"rotateZ(90deg)"} place={"right"} width={size.width} height={size.height} />}
+                        </SizeMe>
                     </div>))
-                if (top) arrows.push(<div style={{ ...contst, top: 0, width: "100%" }} key={"top"}><Txt text={top} /></div>)
-                if (bottom) arrows.push(<div style={{ ...contst, bottom: 0, width: "100%" }} key={"bottom"}><Txt transform={"rotateZ(180deg)"} text={bottom} /></div>)
+                if (top) arrows.push((
+                    <div style={{ ...contst, top: 0, width: "100%" }} key={"top"}>
+                        <SizeMe monitorHeight>
+                            {({ size }) => <Txt text={top} width={size.width} height={size.height} />}
+                        </SizeMe>
+                    </div>
+                ))
+                if (bottom) arrows.push((
+                    <div style={{ ...contst, bottom: 0, width: "100%" }} key={"bottom"}>
+                        <SizeMe monitorHeight>
+                            {({ size }) => <Txt transform={"rotateZ(180deg)"} text={bottom} width={size.width} height={size.height} />}
+                        </SizeMe>
+                    </div>
+                ))
 
                 found = true
                 break

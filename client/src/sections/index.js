@@ -4,7 +4,7 @@ import Landing from "./Landing";
 import Projects from "./Projects";
 import Resume from "./Resume";
 import Omni from "./omni";
-import Arrows from "./arrows";
+import Arrows from "./Arrows";
 import Logo from "./Logo";
 
 export { AboutMe, Connect, Landing, Projects, Resume, Omni, Arrows, Logo }

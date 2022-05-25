@@ -2,6 +2,7 @@ import { Bezier } from "bezier-js"
 
 function scroller(el=window) {
     let scrolling = false
+    let visited = new Set()
     if (el.scrollX !== 0 && el.scrollY !== 0 && (!el.scrollX || !el.scrollY)) throw Error("Invalid element")
     el.addEventListener("scroll", (event) => {
         if (!scrolling) event.preventDefault()
@@ -14,7 +15,6 @@ function scroller(el=window) {
         // at 0 return v1, at 1, return v2
         return v1 + (v2 - v1) * y
     }
-
     async function animationLoop({ dest: [x, y], time=750 }) {
         let start, previous
         const [startx, starty] = [el.scrollX, el.scrollY]
@@ -59,6 +59,7 @@ function scroller(el=window) {
 
     function scrollToEl(to, instant=false) {
         if (!to) return
+        visited.add(to)
         const { top, left } = to.getBoundingClientRect()
         const [x, y] = [left + document.documentElement.scrollLeft, top + document.documentElement.scrollTop]
         if (instant) {
@@ -72,10 +73,16 @@ function scroller(el=window) {
         return scrolling
     }
 
+    function hasScrolledTo(el) {
+        console.log(el)
+        return visited.has(el)
+    }
+
     return {
         scrollTo,
         scrollToEl,
-        isScrolling
+        isScrolling,
+        hasScrolledTo
     }
 }
 

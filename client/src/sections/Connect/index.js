@@ -4,7 +4,7 @@ import "./Connect.css"
 
 function Connect() {
   const render = () => {
-    return <div id="connect">Connect</div>
+    return <div>Connect</div>
   }
 
   return (

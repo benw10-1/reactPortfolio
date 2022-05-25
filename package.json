@@ -1,0 +1,13 @@
+{
+    "name": "fullstackapp",
+    "version": "1.0.0",
+    "description": "Fullstack portfolio app",
+    "main": "server/server.js",
+    "scripts": {
+      "install": "cd client && npm install && cd ../server && npm install",
+      "start": "cd client && npm run build && cd ../server && node server"
+    },
+    "author": "Ben Wirth",
+    "license": "ISC"
+  }
+  

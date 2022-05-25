@@ -33,11 +33,37 @@ html {
 .punc {
 	color: #F4A261;
 	font-size: larger;
+	display: inline;
+	line-height: 1;
 }
 
 strong {
     font-weight: bolder;
     color: #E76F51;
     font-size: larger;
+	display: inline;
+	line-height: 1;
 }
-/* #577684 */
+::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+    background: grey;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #577684;
+}
+
+img:hover {
+	cursor: pointer;
+}

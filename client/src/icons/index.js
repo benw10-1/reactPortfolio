@@ -23,7 +23,7 @@ function LinkedIn() {
     )
 }
 
-function Me() {
+function Me({ style }) {
     const mest = {
         borderRadius: "500px",
         background: "url(/images/me.png)", 
@@ -37,13 +37,13 @@ function Me() {
     }
 
     return (
-        <div style={{...iconst, ...mest }}></div>
+        <div style={{...iconst, ...mest, ...style }}></div>
     )
 }
 
-function GitHub() {
+function GitHub(props) {
     return (
-        <img src="/images/github.png" width={50} height={50} style={iconst} />
+        <img src="/images/github.png" width={50} height={50} style={iconst} {...props} />
     )
 }
 
