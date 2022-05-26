@@ -25,7 +25,7 @@ function TabPanel({ children, value, index, ...other }) {
     borderRadius: "8px",
     height: "100%",
     backgroundColor: "#Fdfcfa",
-    padding: "0 10px 10px 10px",
+    padding: "0 10px 0 10px",
     margin: 0,
     overflow: "hidden",
     display: "flex",

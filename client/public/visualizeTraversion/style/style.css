@@ -1,0 +1,134 @@
+html {
+    font-family: 'Inter', sans-serif;
+    font-family: 'Lato', sans-serif;
+    background-color: #F1FAEE;
+    overflow: hidden;
+}
+
+#graph {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    position: absolute;
+    display: flex;
+    height: 10%;
+    width: 100%;
+}
+
+.slider {
+    /* -webkit-appearance: none;
+    appearance: none; */
+    width: 80%; 
+    height: 25px;
+    background: #d3d3d3; 
+    outline: none;
+    margin: 0;
+    opacity: 0.7; 
+    -webkit-transition: .2s; 
+    transition: opacity .2s;
+}
+.header-cont, .mode, .search-type, .slidecontainer, .search, .cont {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cont {
+    flex-direction: column;
+}
+.num {
+    width: 80px;
+    border-radius: 5px;
+    border: 1px solid #1D3557;
+}
+.header-cont {
+    justify-content: space-around;
+}
+label {
+    margin-bottom: 5px;
+}
+.head-but {
+    font-weight: bolder;
+    font-size: larger;
+    user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+    color: #1D3557;
+    border-radius: 7.5px;
+    padding: 10px 10px;
+    border: 2px solid #1D3557;
+    white-space: pre-wrap;
+    text-align: center;
+    transition: all .3s;
+    margin: 0 10px;
+}
+.head-but:hover {
+    color: #F1FAEE;
+    background-color: #1D3557;
+}
+
+.head-but.selected {
+    color: #F1FAEE;
+    background-color: #1D3557;
+}
+button:disabled {
+    opacity: .35;
+}
+
+.slider:hover {
+    cursor: grab;
+}
+.slider:active {
+    cursor: grabbing;
+}
+
+canvas {
+    background-color: #F1FAEE;
+}
+
+input {
+    outline: none;
+    border: none;
+    font-size: 24px;
+    text-align: center;
+}
+
+.main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.anch {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.options {
+    position: absolute;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    background-color: #F1FAEE;
+}
+.opt {
+    margin-bottom: 10px;
+}
+.disp {
+    width: 20%;
+    white-space: nowrap;
+    font-weight: bolder;
+    font-size: larger;
+}
+.hidden {
+    display: none;
+}
+  

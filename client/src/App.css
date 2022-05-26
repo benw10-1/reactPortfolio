@@ -34,7 +34,7 @@ html {
 	color: #F4A261;
 	font-size: larger;
 	display: inline;
-	line-height: 1;
+	line-height: 1em;
 }
 
 strong {
@@ -42,7 +42,7 @@ strong {
     color: #E76F51;
     font-size: larger;
 	display: inline;
-	line-height: 1;
+	line-height: inherit;
 }
 ::-webkit-scrollbar {
     width: 6px;

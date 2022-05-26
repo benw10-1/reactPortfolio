@@ -1,0 +1,160 @@
+.square {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* border: 1px inset black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.square img {
+    display: absolute;
+    position: inherit;
+    cursor: grab;
+    z-index: 2;
+}
+.board-cont {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 500px;
+    border: 2px gray solid;
+    -moz-user-select: none;
+    user-select: none;
+}
+.board-row {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+.prim {
+    background-color: #F1FAEE;
+}
+.sec {
+    background-color: #457B9D;
+}
+
+.square-over {
+    display: block;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background-color: grey;
+    opacity: .75;
+    z-index: 1;
+    border-radius: 100px;
+}
+
+.promotion-over {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left:0;
+    top: 0;
+    width: 100%;
+    height: 425%;
+    justify-content: center;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    z-index: 5;
+}
+.promotion-item, .x {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.promotion-item img {
+    cursor: pointer;
+}
+.x {
+    cursor: pointer;
+    height: 50%;
+    font-weight: 700px;
+    font-size: 25px;
+    background-color: lightgrey;
+}
+.xaxis, .yaxis {
+    position: absolute;
+    display: flex;
+}
+.xaxis {
+    bottom: -1.3em;
+    flex-direction: row;
+    width: 100%
+}
+.yaxis {
+    left: -1.1em;
+    flex-direction: column;
+    height: 100%
+}
+.label {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+    font-weight: 700;
+}
+.topbar {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 7px;
+    background-color: aqua;
+    top: -22%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    background-color: #F1FAEE;
+}
+.headcont {
+    position: relative;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.title {
+    transform: translateY(.2em);
+    padding-left: 10px;
+    font-size: xx-large;
+    font-weight: 700;
+}
+.outcont {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 40%;
+    height: 100%;
+    padding-left: 10px;
+    /* overflow: auto; */
+}
+.output {
+    transform: translateY(.3em);
+    font-weight: bolder;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: green;
+}
+
+.hidden {
+    display: none;
+}
+.lastMove {
+    display: block;
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    background-color: yellow;
+    opacity: .5;
+}
+.over {
+    z-index: 3;
+}

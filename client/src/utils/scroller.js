@@ -3,6 +3,7 @@ import { Bezier } from "bezier-js"
 function scroller(el=window) {
     let scrolling = false
     let visited = new Set()
+    let disabled = false
     if (el.scrollX !== 0 && el.scrollY !== 0 && (!el.scrollX || !el.scrollY)) throw Error("Invalid element")
     el.addEventListener("scroll", (event) => {
         if (!scrolling) event.preventDefault()
@@ -49,7 +50,7 @@ function scroller(el=window) {
     }
 
     async function scrollTo(x, y, instant=false) {
-        if (scrolling) return new Promise((res, rej) => rej("XD"))
+        if (scrolling || disabled) return new Promise((res, rej) => rej("Scrolling disabled"))
         if (instant) {
             el.scrollTo(x, y)
             return
@@ -58,7 +59,7 @@ function scroller(el=window) {
     }
 
     function scrollToEl(to, instant=false) {
-        if (!to) return new Promise((res, rej) => rej("XD"))
+        if (!to || disabled) return new Promise((res, rej) => rej("Scrolling disabled"))
         visited.add(to)
         const { top, left } = to.getBoundingClientRect()
         const [x, y] = [left + document.documentElement.scrollLeft, top + document.documentElement.scrollTop]
@@ -77,11 +78,21 @@ function scroller(el=window) {
         return visited.has(el)
     }
 
+    function setDisabled(state) {
+        disabled = state
+    }
+
+    function isDisabled() {
+        return disabled || scrolling
+    }
+
     return {
         scrollTo,
         scrollToEl,
         isScrolling,
-        hasScrolledTo
+        hasScrolledTo,
+        setDisabled,
+        isDisabled
     }
 }
 

@@ -15,7 +15,7 @@ function Landing() {
     }
     const txtst = {
       fontSize: "65px",
-      lineHeight: "75px"
+      lineHeight: "2em"
     }
     const tipst = {
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",

@@ -38,7 +38,7 @@ function App() {
   }
 
   const keyHandle = (event) => {
-    if (!event.code.match(/Arrow/gi)) return false
+    if (!event.code.match(/Arrow/gi) || scroller.isDisabled()) return false
     let [row, col] = getSelectedPos()
     if (!row && row !== 0) return
     switch (event.code) {
@@ -60,8 +60,7 @@ function App() {
     let rc = layout[row]?.[col]
     // console.log(rc, row, col)
     if (rc) {
-      if (!scroller.isScrolling()) setScrolling(true)
-      else return
+      setScrolling(true)
       scroller.scrollToEl(document.getElementById(rc.replace(" ", ""))).then(() => { select(rc); setScrolling(false) })
     }
   }
@@ -71,10 +70,12 @@ function App() {
   }
 
   const scroll = (event) => {
-    if (scrolling || scroller.isScrolling() || event.ctrlKey) return false
-    // console.log(event.composedPath())
+    if (scroller.isDisabled() || event.ctrlKey) return false
     for (const x of event.composedPath()) {
-      if ((!!x.scrollLeft || !!x.scrollTop) && x !== document && x.tagName !== "HTML") return false
+      const { scrollHeight, id, tagName, clientHeight } = x
+      if (id === "root" || tagName === "HTML" || x === document) continue
+      console.log(scrollHeight, clientHeight, x)
+      if (scrollHeight > clientHeight) return false
     }
     let [row, col] = getSelectedPos()
     if (event.deltaY < 0) row -= 1

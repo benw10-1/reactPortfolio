@@ -11,7 +11,7 @@ import {
   Paper,
   Modal
 } from "@mui/material";
-import { markUp } from "../../utils";
+import { markUp, scroller } from "../../utils";
 
 const projobj = Object.fromEntries(projects.map(x => {
   const cpy = { ...x }
@@ -185,8 +185,14 @@ function Projects() {
   const [open, setOpen] = useState(false)
   const [modalKey, setModalKey] = useState("")
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleOpen = () => {
+    setOpen(true)
+    scroller.setDisabled(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+    scroller.setDisabled(false)
+  }
 
   let timeout
   const changeHandle = (event, newtab) => {
@@ -276,7 +282,7 @@ function Projects() {
     width: "70%",
     left: "50%",
     top: "50%",
-    padding: "10px",
+    padding: "10px 10px 0 10px",
     transform: "translate(-50%, -50%)",
     position: "absolute",
     color: "#577684",

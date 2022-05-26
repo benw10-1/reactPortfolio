@@ -4,7 +4,8 @@
   "description": "Simple chat application built using Express",
   "main": "server.js",
   "scripts": {
-    "buildrun": "cd ../client && npm run build && cd ../server && node server"
+    "buildrun": "cd ../client && npm run build && cd ../server && node server",
+    "start": "node server"
   },
   "author": "Ben Wirth",
   "license": "ISC",

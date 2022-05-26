@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+
+        <link rel="stylesheet" href="assets/css/reset.css" type="text/css">
+        <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/css/ol.css" type="text/css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
+
+        <script type="text/javascript" src="assets/js/base.js"></script>
+        <script type="text/javascript" src="assets/js/scr.js"></script>
+
+        <title>Bluer Skies</title>
+    </head>
+
+    <body>
+        <div class="nav">
+            <div class="control">
+                <input id="search" class="input is-large" type="text" placeholder="Search location..." autocomplete="off"></input>
+            </div>
+        </div>
+        <div class="content">
+            <div class="col" id="map-column">
+                <div class="map-container">
+                    <div id="js-map" class="map"></div>
+                </div>
+            </div>
+            <div class="col" id="search-column">
+                <div class="map-container">
+                    <div class="search-history">
+                        <div class="search-header">
+                            <p>Search History</p>
+                        </div>
+                        <div class="searches">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="popup" class="ol-popup">
+            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+            <div id="popup-content">popup</div>
+        </div>
+    </body>
+</html>
