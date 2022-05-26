@@ -4,6 +4,7 @@
     "description": "Fullstack portfolio app",
     "main": "server/server.js",
     "scripts": {
+      "deploy": "npm install && npm start",
       "install": "cd client && npm install && cd ../server && npm install",
       "start": "cd client && npm run build && cd ../server && node server"
     },
