@@ -140,8 +140,8 @@ function AboutMe() {
                 borderRadius: (isBottom ? "0 0 10px 10px" : "10px 0 0 10px"),
                 boxShadow: "0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);",
                 position: "absolute",
-                transform: (isBottom ? "translateX(-50%) translateY(10px)" : "translateX(-100%)"),
-                ...(isBottom ? { left: "50%", top: "100%" } : {left: "0", top: "unset"})
+                transform: (isBottom ? "translateX(-50%) translateY(100%)" : "translateX(-100%)"),
+                ...(isBottom ? { left: "50%", bottom: "0" } : {left: "0", top: "unset"})
               }}
             >
               {tabs}

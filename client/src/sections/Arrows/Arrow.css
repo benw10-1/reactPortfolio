@@ -19,7 +19,7 @@
 }
 
 .animate-text {
-    animation: textclip 1s linear infinite;
+    animation: textclip 1s linear forwards;
 }
 
 @keyframes textclip {

@@ -27,6 +27,7 @@ time, mark, audio, video {
 
 html {
 	overflow: hidden;
+	background-color: "#264653";
 	/* scroll-behavior: smooth; */
 }
 

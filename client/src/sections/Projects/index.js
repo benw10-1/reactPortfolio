@@ -295,13 +295,13 @@ function Projects() {
     backgroundPosition: "top",
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
-    paddingTop: "40vh",
+    paddingTop: "30vh",
   }
   const headersx = {
     width: "100%",
     display: "flex",
     justifyContent: "center",
-    fontSize: "32px",
+    fontSize: "38px",
     fontWeight: "bolder",
     color: "#E76F51",
     marginTop: "5px",
@@ -309,10 +309,12 @@ function Projects() {
   }
   const infosx = {
     lineHeight: "54px",
-    fontSize: "24px",
+    fontSize: "22px",
     overflow: "auto",
-    paddingTop: "3px",
-    textIndent: "1em"
+    padding: "3px .75em 0 .75em",
+    textIndent: "1em",
+    columnCount: "2",
+    columnGap: "40px"
   }
 
   return (

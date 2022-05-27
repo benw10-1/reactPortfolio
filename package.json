@@ -9,11 +9,6 @@
       "start": "cd client && npm run build && cd ../server && node server"
     },
     "license": "ISC",
-    "engines": {
-      "node": "16"
-    },
-    "dependencies": {
-      "express": "^4.17.3"
-    }
+    "dependencies": { }
   }
   

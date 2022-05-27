@@ -74,7 +74,6 @@ function App() {
     for (const x of event.composedPath()) {
       const { scrollHeight, id, tagName, clientHeight } = x
       if (id === "root" || tagName === "HTML" || x === document) continue
-      console.log(scrollHeight, clientHeight, x)
       if (scrollHeight > clientHeight) return false
     }
     let [row, col] = getSelectedPos()
@@ -89,8 +88,10 @@ function App() {
   }
 
   useEffect(() => {
-    scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
-      setScrolling(false)
+    window.addEventListener("load", (event) => {
+      scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
+        setScrolling(false)
+      })
     })
     window.addEventListener("resize", (event) => resizer(event))
     document.addEventListener("keydown", (event) => keyHandle(event))
