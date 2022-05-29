@@ -26,3 +26,12 @@
     color: #577684;
     position: relative;
 }
+
+@media screen and (max-width: 600px) {
+    .main-cont {
+        font-size: 20px;
+    }
+    .cont-head {
+        font-size: 30px;
+    }
+}

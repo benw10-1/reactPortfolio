@@ -12,16 +12,15 @@ import { markUp } from "../../utils"
 import { Me, Info, JS, Python } from "../../icons";
 import about from "../../data/about.json"
 
-function TabPanel({ children, value, index, ...other }) {
+function TabPanel({ children, value, index, isMobile, ...other }) {
   const panelst = {
     height: "600px",
-    maxHeight: "600px",
     zIndex: 0,
     WebkitTransform: "translateZ(0)"
   }
   const paperst = {
     width: "75vw",
-    minWidth: "600px",
+    minWidth: isMobile ? "200px" : "570px",
     borderRadius: "8px",
     height: "100%",
     backgroundColor: "#Fdfcfa",
@@ -74,7 +73,7 @@ function InnerTab({ name, tabIndex }) {
   )
 }
 
-function AboutMe() {
+function AboutMe({ scale, isMobile }) {
   const [tabIndex, setTabIndex] = useState(0)
   const [isBottom, setIsBottom] = useState(window.innerWidth <= 900)
 
@@ -146,14 +145,14 @@ function AboutMe() {
             >
               {tabs}
             </Tabs>
-            <Me style={{ position: "absolute", left: "10px", width: "65px", height: "65px", top: "10px", zIndex: 1, WebkitTransform: "translateZ(1)" }} />
-            <TabPanel value={tabIndex} index={0}>
+            <Me style={{ position: "absolute", left: "10px", width: `${isMobile ? 47 : 65}px`, height: `${isMobile ? 47 : 65}px`, top: `10px`, zIndex: 1, WebkitTransform: "translateZ(1)" }} />
+            <TabPanel value={tabIndex} index={0} isMobile={isMobile} >
               <InnerTab name="About Me" tabIndex={tabIndex} />
             </TabPanel>
-            <TabPanel value={tabIndex} index={1}>
+            <TabPanel value={tabIndex} index={1} isMobile={isMobile} >
               <InnerTab name="JavaScript" tabIndex={tabIndex} />
             </TabPanel>
-            <TabPanel value={tabIndex} index={2} >
+            <TabPanel value={tabIndex} index={2} isMobile={isMobile} >
               <InnerTab name="Python" tabIndex={tabIndex} />
             </TabPanel>
           </Box>

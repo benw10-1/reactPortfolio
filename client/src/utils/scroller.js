@@ -4,9 +4,12 @@ function scroller(el=window) {
     let scrolling = false
     let visited = new Set()
     let disabled = false
+    let disableBlock = false
     if (el.scrollX !== 0 && el.scrollY !== 0 && (!el.scrollX || !el.scrollY)) throw Error("Invalid element")
     el.addEventListener("scroll", (event) => {
-        if (!scrolling) event.preventDefault()
+        if (!scrolling && !disableBlock) {
+            event.preventDefault()
+        }
     })
     // custom bez curve
     const bez = new Bezier(0, 0, .42, .0, .58, 1, 1, 1)
@@ -50,7 +53,7 @@ function scroller(el=window) {
     }
 
     async function scrollTo(x, y, instant=false) {
-        if (scrolling || disabled) return new Promise((res, rej) => rej("Scrolling disabled"))
+        if (scrolling || disabled) return new Promise((res, rej) => res("Scrolling disabled"))
         if (instant) {
             el.scrollTo(x, y)
             return
@@ -59,7 +62,7 @@ function scroller(el=window) {
     }
 
     function scrollToEl(to, instant=false) {
-        if (!to || disabled) return new Promise((res, rej) => rej("Scrolling disabled"))
+        if (!to || disabled) return new Promise((res, rej) => res("Scrolling disabled"))
         visited.add(to)
         const { top, left } = to.getBoundingClientRect()
         const [x, y] = [left + document.documentElement.scrollLeft, top + document.documentElement.scrollTop]
@@ -86,13 +89,18 @@ function scroller(el=window) {
         return disabled || scrolling
     }
 
+    function setDisableBlock(state) {
+        disableBlock = state
+    }
+
     return {
         scrollTo,
         scrollToEl,
         isScrolling,
         hasScrolledTo,
         setDisabled,
-        isDisabled
+        isDisabled,
+        setDisableBlock
     }
 }
 

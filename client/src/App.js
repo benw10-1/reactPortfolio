@@ -1,20 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import scroller from "./utils/scroller";
 import "./App.css"
+import { Box } from "@mui/material";
 import { isMobile } from "react-device-detect"
-import { Omni, Arrows, Logo } from "./sections"
+import { Omni, Arrows } from "./sections"
+import { mediaHolder, scroller } from "./utils"
 
 function App() {
   const [rerender, setRerender] = useState(11)
-  const [selected, setSelected] = useState("intro")
-  const [scrolling, setScrolling] = useState(true)
-
-  const selectedRef = useRef(selected)
-
-  const select = (state) => {
-    selectedRef.current = state
-    setSelected(state)
-  }
 
   const layout = [
     [null, "resume", null],
@@ -22,114 +14,25 @@ function App() {
     [null, "about me", null],
   ]
 
-  const getSelectedPos = () => {
-    let row, col
-    for (let r = 0; r < layout.length; r++) {
-      let item = layout[r]
-      for (let c = 0; c < item.length; c++) {
-        if (layout[r][c] === selectedRef.current ?? selected) {
-          row = r
-          col = c
-          break
-        }
-      }
-    }
-    return [row, col]
-  }
-
-  const keyHandle = (event) => {
-    if (!event.code.match(/Arrow/gi) || scroller.isDisabled()) return false
-    let [row, col] = getSelectedPos()
-    if (!row && row !== 0) return
-    switch (event.code) {
-      case "ArrowUp":
-        row -= 1;
-        break;
-      case "ArrowDown":
-        row += 1;
-        break;
-      case "ArrowLeft":
-        col -= 1;
-        break;
-      case "ArrowRight":
-        col += 1;
-        break;
-      default:
-        return false
-    }
-    let rc = layout[row]?.[col]
-    // console.log(rc, row, col)
-    if (rc) {
-      setScrolling(true)
-      scroller.scrollToEl(document.getElementById(rc.replace(" ", ""))).then(() => { select(rc); setScrolling(false) })
-    }
-  }
-  const resizer = (event) => {
-    setRerender(Math.random())
-    scroller.scrollToEl(document.getElementById((selectedRef.current ?? selected).replace(" ", "")), true)
-  }
-
-  const scroll = (event) => {
-    if (scroller.isDisabled() || event.ctrlKey) return false
-    for (const x of event.composedPath()) {
-      const { scrollHeight, id, tagName, clientHeight } = x
-      if (id === "root" || tagName === "HTML" || x === document) continue
-      if (scrollHeight > clientHeight) return false
-    }
-    let [row, col] = getSelectedPos()
-    if (event.deltaY < 0) row -= 1
-    else row += 1
-    let sel = layout[row]?.[col]
-
-    if (sel) {
-      setScrolling(true)
-      scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => { setScrolling(false); select(sel) })
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("load", (event) => {
-      scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
-        setScrolling(false)
-      })
-    })
-    window.addEventListener("resize", (event) => resizer(event))
-    document.addEventListener("keydown", (event) => keyHandle(event))
-    document.addEventListener("wheel", (event) => scroll(event))
-    window.addEventListener("hashchange", (event) => {
-      window.history.replaceState({}, window.location.origin, event.oldURL)
-      setScrolling(true)
-      scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
-        setScrolling(false)
-      })
-    })
-  }, [])
-
   const render = () => {
-    if (isMobile || window.innerWidth < 600) {
-      return (
-        <div>Mobile</div>
-      )
-    }
-
     let maxWidth = 0
     layout.forEach(x => {
       if (maxWidth < x.length) maxWidth = x.length
     })
-
-    const contsx = {
-      width: "100%",
-      height: "100%",
-      position: "relative",
-      backgroundColor: "#264653",
-      margin: 0
-    }
+    const scale = mediaHolder.useSetMedias({
+      desktop: 1,
+      tablet: .8,
+      laptop: .7,
+      mobile: .4,
+      mobileL: .35,
+    })
     const rowsx = {
       width: 100 * maxWidth + "vw",
       height: "100vh",
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
+      alignItems: "center",
       margin: 0,
       padding: 0
     }
@@ -137,7 +40,45 @@ function App() {
       width: 100 * maxWidth + "vw",
       height: 100 * layout.length + "vh",
       margin: 0,
-      padding: 0
+      padding: 0,
+    }
+    const contsx = {
+      width: "100%",
+      height: "100%",
+      position: "relative",
+      backgroundColor: "#264653",
+      margin: 0,
+    }
+    scroller.setDisableBlock(false)
+    if (isMobile || window.innerWidth < 600) {
+      scroller.setDisableBlock(false)
+      scroller.scrollTo(0, 0, true)
+      let contsx = {
+        width: "100%",
+        height: "100vh",
+        // position: "relative",
+      }
+
+      return (
+        <div style={{
+          backgroundColor: "#264653", height: "fit-content", width: "100vw", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
+        }}>
+          <Box sx={{ width: "100%" }}>
+            <div style={contsx}>
+              <Omni scale={scale} page={"intro"} isMobile={true} />
+            </div>
+            <div style={contsx}>
+              <Omni scale={scale} page={"about me"} isMobile={true} />
+            </div>
+            <div style={contsx}>
+              <Omni scale={scale} page={"projects"} isMobile={true} />
+            </div>
+            <div style={contsx}>
+              <Omni scale={scale} page={"connect"} isMobile={true} />
+            </div>
+          </Box>
+        </div>
+      )
     }
 
     let rendered = []
@@ -147,7 +88,7 @@ function App() {
       let rowContent = row.map(x => {
         i += 2
         if (x) {
-          return <div style={contsx} id={x.replace(" ", "")} key={i}><Omni page={x} /></div>
+          return <div style={contsx} id={x.replace(" ", "")} key={x}><Omni page={x} scale={scale} isMobile={false} /></div>
         }
         return <div style={contsx} key={i} />
       })
@@ -163,11 +104,10 @@ function App() {
           {rendered}
         </div>
         <Arrows
-          selectHandle={[selected, select]}
+          setRerender={setRerender}
           layout={layout}
-          scroller={[scrolling, setScrolling]}
+          scale={scale}
         />
-        <Logo sel={[selected, select]} scrollers={[scrolling, setScrolling]} />
       </React.Fragment>
     )
   }

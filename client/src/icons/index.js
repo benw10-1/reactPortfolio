@@ -23,7 +23,7 @@ function LinkedIn() {
     )
 }
 
-function Me({ style }) {
+function Me({ style, scale }) {
     const mest = {
         borderRadius: "500px",
         background: "url(/images/me.png)", 
@@ -31,8 +31,8 @@ function Me({ style }) {
         backgroundRepeat: "no-repeat", 
         backgroundSize: "cover", 
         boxShadow: "0 8px 16px 0 rgb(0 0 0 / 15%)",
-        width: "100px",
-        height: "100px",
+        width: `${100 * scale}px`,
+        height: `${100 * scale}px`,
         marginBottom: "12.5px"
     }
 
@@ -42,8 +42,10 @@ function Me({ style }) {
 }
 
 function GitHub(props) {
+    const { scale } = props
+
     return (
-        <img src="/images/github.png" width={50} height={50} style={iconst} {...props} />
+        <img src="/images/github.png" width={50 * scale} height={50 * scale} style={iconst} {...props} />
     )
 }
 

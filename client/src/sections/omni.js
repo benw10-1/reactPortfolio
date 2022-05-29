@@ -1,20 +1,30 @@
 import { AboutMe, Connect, Landing, Projects, Resume } from "./index"
 
-function Omni({ page }) {
+function Omni({ page, scale, isMobile }) {
+    let returned
+
     switch(page) {
         case "about me":
-            return <AboutMe/>;
+            returned = <AboutMe scale={scale} isMobile={isMobile} />;
+            break;
         case "connect":
-            return <Connect/>;
+            returned = <Connect scale={scale} isMobile={isMobile} />;
+            break;
         case "intro":
-            return <Landing/>;
+            returned = <Landing scale={scale} isMobile={isMobile} />;
+            break;
         case "resume":
-            return <Resume/>;
+            returned = <Resume scale={scale} isMobile={isMobile} />;
+            break;
         case "projects":
-            return <Projects/>;
+            returned = <Projects scale={scale} isMobile={isMobile} />;
+            break;
         default:
-            return <div>what?</div>
+            returned = <div>what?</div>
+            break;
     }
+
+    return returned
 }
 
 export default Omni

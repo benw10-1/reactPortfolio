@@ -11,7 +11,7 @@ import {
   Paper,
   Modal
 } from "@mui/material";
-import { markUp, scroller } from "../../utils";
+import { markUp, scroller, mediaHolder, clamp } from "../../utils";
 
 const projobj = Object.fromEntries(projects.map(x => {
   const cpy = { ...x }
@@ -28,19 +28,19 @@ const projectGroups = Object.fromEntries(tagGroups.map(x => {
   return [x, projs]
 }))
 
-function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
+function Project({ obj, tm, grow, modal: [handleOpen, setModalKey], scale }) {
   const render = () => {
     const contsx = {
-      width: "300px",
-      height: "300px",
+      width: `${scale * 300}px`,
+      height: `${scale * 300}px`,
       display: "flex",
       justifyContent: "center",
       alignItems: "center"
     }
     const papersx = {
-      width: "250px",
-      height: "250px",
-      borderRadius: "15px",
+      width: `${scale * 250}px`,
+      height: `${scale * 250}px`,
+      borderRadius: `${scale * 15}px`,
       background: `url(${typeof obj.images === "string" ? obj.images : obj.images[0]})`,
       backgroundPosition: "center",
       backgroundSize: "500px",
@@ -67,7 +67,7 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
     }
     const headsx = {
       textAlign: "center",
-      fontSize: "38px",
+      fontSize: `${scale * 38}px`,
       color: "#E9C46A",
       lineHeight: "1.1em",
       position: "absolute",
@@ -87,7 +87,7 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
           }} elevation={7} >
             <Box sx={overSX}>
               <Box classes={"ignore"} sx={headsx} onClick={(event) => { event.preventDefault(); window.open(obj.deployed, "_blank") }}>{obj.name}</Box>
-              <GitHub classes={"ignore"} onClick={(event) => { event.preventDefault(); window.open(obj.repo, "_blank") }} style={{ bottom: "25px", position: "absolute" }} />
+              <GitHub scale={scale} classes={"ignore"} onClick={(event) => { event.preventDefault(); window.open(obj.repo, "_blank") }} style={{ bottom: "10%", position: "absolute" }} />
             </Box>
           </Paper>
         </Grid>
@@ -98,7 +98,7 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey] }) {
   return render()
 }
 
-function TabPanel({ children, value, index, ...other }) {
+function TabPanel({ children, value, index, scale, ...other }) {
   const [page, sPage] = useState(0)
   const pageRef = useRef(page)
 
@@ -108,7 +108,7 @@ function TabPanel({ children, value, index, ...other }) {
   }
 
   const panelst = {
-    width: "900px",
+    width: `${scale * 900}px`,
     position: "relative",
   }
 
@@ -117,7 +117,7 @@ function TabPanel({ children, value, index, ...other }) {
     justifyContent: "start",
     rowSpacing: 1,
     sx: {
-      height: "600px",
+      height: `${Math.min(scale + .05, 1) * 600}px`,
       margin: 0
     }
   }
@@ -132,7 +132,7 @@ function TabPanel({ children, value, index, ...other }) {
     textDecoration: "underline",
     cursor: "pointer",
     margin: "0 6px",
-    fontSize: "37.5px",
+    fontSize: `${Math.min(scale + .3, 1) * 37.5}px`,
     fontWeight: "bolder",
     fontFamily: "'Courier New', Courier, monospace",
     userSelect: "none",
@@ -147,12 +147,12 @@ function TabPanel({ children, value, index, ...other }) {
   const hasPagination = children.length > 6
   const pages = Math.ceil(children.length / 6)
   const pageIndicators = (
-    <div style={{ width: "100%", height: "36px", display: "flex", justifyContent: "center" }}>
+    <div style={{ height: "36px", display: "flex", justifyContent: "center", position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
       {(() => {
         let indicators = []
         for (let i = 0; i < pages; i++) {
           const x = i
-          indicators.push(<Box sx={pageRef.current === x ? { ...indicatorst, ...selectedst } : indicatorst} onClick={() => {setPage(x)}} key={i}>{i + 1}</Box>)
+          indicators.push(<Box sx={pageRef.current === x ? { ...indicatorst, ...selectedst } : indicatorst} onClick={() => { setPage(x) }} key={i}>{i + 1}</Box>)
         }
 
         return indicators
@@ -178,7 +178,7 @@ function TabPanel({ children, value, index, ...other }) {
 
 // const isLink = new RegExp("^(https?://)?([\\da-z.-]+)\.([a-z.]{2,6})([\\w.-]*)*(?:/?)+$")
 
-function Projects() {
+function Projects({ isMobile }) {
   const [tab, setTab] = useState("all")
   const [grow, setGrow] = useState(true)
   const [currentProjects, setCurrentProjects] = useState(projects)
@@ -193,6 +193,14 @@ function Projects() {
     setOpen(false)
     scroller.setDisabled(false)
   }
+  const scale = mediaHolder.useSetMedias({
+    desktop: 1,
+    laptop: .8,
+    tablet: .6,
+    mobile: .55,
+    mobileL: .45,
+    mobileM: .35,
+  })
 
   let timeout
   const changeHandle = (event, newtab) => {
@@ -207,7 +215,7 @@ function Projects() {
 
   let i = 0
   const projectJSX = currentProjects.map(x => {
-    let proj = <Project obj={x} grow={grow} key={x.name} tm={400 * ((i % 6) + 2)} modal={[handleOpen, setModalKey]} />
+    let proj = <Project scale={scale} obj={x} grow={grow} key={x.name} tm={400 * ((i % 6) + 2)} modal={[handleOpen, setModalKey]} />
     i++
     return proj
   })
@@ -222,14 +230,14 @@ function Projects() {
     }
     const boxst = {
       width: "100%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      height: "100%",
+      display: "grid",
+      placeItems: "center",
     }
     const tabsx = {
       color: "#577684",
       transition: "all .3s",
-      fontSize: "37.5px",
+      fontSize: `${scale * 37.5}px`,
       fontWeight: "bolder",
       fontFamily: "'Courier New', Courier, monospace",
       "&:hover": {
@@ -241,7 +249,7 @@ function Projects() {
     }
     const tabst = {
       fontFamily: "ff-tisa-sans-web-pro, sans-serif",
-      fontSize: "24px",
+      fontSize: `${clamp(scale + .2, .4, 1) * 24}px`,
       textTransform: "none",
       margin: "0 0 -4px 0",
       lineHeight: "28px"
@@ -250,7 +258,7 @@ function Projects() {
     return (
       <div style={contst} >
         <Box sx={boxst}>
-          <Box sx={{ width: "100%", height: "70vh", display: "flex", flexDirection: "column", alignItems: "center" }} >
+          <Box >
             <Tabs
               value={tab}
               onChange={changeHandle}
@@ -266,7 +274,7 @@ function Projects() {
                 return <Tab label={<span style={tabst}>{`${uppered}(${projectGroups[x].length})`}</span>} key={i} value={x} sx={tabsx} />
               })}
             </Tabs>
-            <TabPanel value={tab} index={tab}>{projectJSX}</TabPanel>
+            <TabPanel value={tab} index={tab} scale={scale}>{projectJSX}</TabPanel>
           </Box>
         </Box>
       </div>
@@ -295,7 +303,7 @@ function Projects() {
     backgroundPosition: "top",
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
-    paddingTop: "30vh",
+    paddingTop: "35%",
   }
   const headersx = {
     width: "100%",
@@ -305,16 +313,19 @@ function Projects() {
     fontWeight: "bolder",
     color: "#E76F51",
     marginTop: "5px",
+    textAlign: "center",
     borderBottom: "2px solid #264653"
   }
   const infosx = {
-    lineHeight: "54px",
+    lineHeight: `${clamp(scale, .8, 1) * 50}px`,
     fontSize: "22px",
     overflow: "auto",
-    padding: "3px .75em 0 .75em",
+    padding: isMobile ? "0 .35em" : "0 .75em",
     textIndent: "1em",
-    columnCount: "2",
-    columnGap: "40px"
+    columnCount: isMobile ? "unset" : "2",
+    columnGap: isMobile ? "unset" : "40px",
+    // columnRule: isMobile ? "unset" : "solid 1px rgba(0,0,0, .5)",
+    overflow: "auto",
   }
 
   return (
@@ -327,7 +338,7 @@ function Projects() {
         <Paper style={paperst} elevation={7}>
           <Box sx={{ width: "100%", height: "100%", position: "relative", display: "flex", flexDirection: "column" }}>
             <Box sx={bannersx} />
-            <Box sx={headersx}><span style={{ cursor: "pointer" }} onClick={(event) => {return proj ? window.open(proj.deployed, "_blank") : null}}>{proj?.name ?? ""}</span></Box>
+            <Box sx={headersx}><span style={{ cursor: "pointer" }} onClick={(event) => { return proj ? window.open(proj.deployed, "_blank") : null }}>{proj?.name ?? ""}</span></Box>
             <Box dangerouslySetInnerHTML={proj ? markUp(proj.about, proj.tags) : ""} sx={infosx}></Box>
           </Box>
         </Paper>
