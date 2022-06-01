@@ -14,9 +14,10 @@ To install this application, open `terminal` and clone the repository by running
 
 ## Usage
 
-Once the application is installed, the user must make necessary changes to the .env file and install all packages. After that, open the `terminal` and run:
-    npm deploy
-    npm start
+Once the application is installed, open the `terminal` in the repository directory and run: <br>
+   
+    npm run deploy
+    npm run start
 
 ## Visit page
 
