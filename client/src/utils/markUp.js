@@ -1,4 +1,4 @@
-const punc = new RegExp("(?!<[^<>]*)[.,/#!$%\\^&*;:{}?=\\-_`~()\"'“”]+(?![^<>]*>)", "g")
+const punc = new RegExp("(?!<[^<>]*)[.,@/#!$%\\^&*;:{}?=\\-_`~()\"'“”]+(?![^<>]*>)", "g")
 
 function markUp(text, strong=[]) {
     text = text.replace(punc, (match) => {
@@ -6,7 +6,7 @@ function markUp(text, strong=[]) {
     })
     for (const x of strong) {
         if (!x) continue
-        let reg = new RegExp("(?!<[^<>]+)" + x + "(?![^<>]+>)", "g")
+        let reg = new RegExp("(?!<[^<>]+)" + x + "[^<>\\s]*(?![^<>]+>)", "g")
         let matches = text.match(reg)
         if (!matches) continue
         text = text.replace(reg, "<strong>$&</strong>")

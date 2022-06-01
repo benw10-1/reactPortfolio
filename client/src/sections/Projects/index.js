@@ -303,7 +303,7 @@ function Projects({ isMobile }) {
     backgroundPosition: "top",
     backgroundSize: "contain",
     backgroundRepeat: "no-repeat",
-    paddingTop: "35%",
+    paddingTop: isMobile ? "40%" : "40vh",
   }
   const headersx = {
     width: "100%",
@@ -325,7 +325,6 @@ function Projects({ isMobile }) {
     columnCount: isMobile ? "unset" : "2",
     columnGap: isMobile ? "unset" : "40px",
     // columnRule: isMobile ? "unset" : "solid 1px rgba(0,0,0, .5)",
-    overflow: "auto",
   }
 
   return (

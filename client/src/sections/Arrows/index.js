@@ -124,14 +124,21 @@ function Arrows({ setRerender, layout, scale }) {
         select(selectedRef.current ?? selected)
     }
     const hashchange = (event) => {
-        window.history.replaceState({}, window.location.origin, event.oldURL)
+        let sel = selectedRef.current ?? selected
+        let hash = window.location.hash.replace("#", "")
+        if (layout.some(x => x.some(y => hash === (y ? y.replace(" ", "") : y)))) {
+            sel = hash
+            select(hash)
+        }
         setScrolling(true)
-        scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
+        scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {
             setScrolling(false)
+            window.history.replaceState({}, window.location.origin, event.oldURL)
         })
     }
     const loader = (event) => {
-        scroller.scrollToEl(document.getElementById(selected.replace(" ", ""))).then(() => {
+        console.log("loader")
+        scroller.scrollToEl(document.getElementById((selectedRef.current ?? selected).replace(" ", ""))).then(() => {
             setScrolling(false)
         })
     }
