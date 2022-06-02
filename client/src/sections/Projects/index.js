@@ -75,7 +75,7 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey], scale }) {
       transform: "translateY(-50%)",
       "&:hover": {
         cursor: "pointer"
-      }
+      },
     }
     return (
       <Grow in={grow} {...(grow ? { timeout: tm } : {})} >
@@ -86,7 +86,9 @@ function Project({ obj, tm, grow, modal: [handleOpen, setModalKey], scale }) {
             handleOpen()
           }} elevation={7} >
             <Box sx={overSX}>
-              <Box classes={"ignore"} sx={headsx} onClick={(event) => { event.preventDefault(); window.open(obj.deployed, "_blank") }}>{obj.name}</Box>
+              <Box classes={"ignore"} sx={headsx} onClick={(event) => { event.preventDefault(); window.open(obj.deployed, "_blank") }}>
+                <span style={{ backgroundColor: "#E76F51", lineHeight: "2rem" }}>{obj.name}</span>
+              </Box>
               <GitHub scale={scale} classes={"ignore"} onClick={(event) => { event.preventDefault(); window.open(obj.repo, "_blank") }} style={{ bottom: "10%", position: "absolute" }} />
             </Box>
           </Paper>
@@ -320,10 +322,10 @@ function Projects({ isMobile }) {
     lineHeight: `${clamp(scale, .8, 1) * 50}px`,
     fontSize: "22px",
     overflow: "auto",
-    padding: isMobile ? "0 .35em" : "0 .75em",
+    padding: `.5rem 1rem`,
     textIndent: "1em",
     columnCount: isMobile ? "unset" : "2",
-    columnGap: isMobile ? "unset" : "40px",
+    columnGap: isMobile ? "unset" : "1rem",
     // columnRule: isMobile ? "unset" : "solid 1px rgba(0,0,0, .5)",
   }
 

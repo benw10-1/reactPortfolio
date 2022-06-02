@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import scroller from "../../utils/scroller";
 import {
   Tabs,
   Tab,
@@ -24,7 +23,7 @@ function TabPanel({ children, value, index, isMobile, ...other }) {
     borderRadius: "8px",
     height: "100%",
     backgroundColor: "#Fdfcfa",
-    padding: "0 10px 0 10px",
+    padding: "0 10px",
     margin: 0,
     overflow: "hidden",
     display: "flex",
@@ -66,7 +65,7 @@ function InnerTab({ name, tabIndex }) {
       </div>
       <Fade in={collapse}>
         <div className="main-cont">
-          <div style={{ width: "98%" }} dangerouslySetInnerHTML={markUp(about[name], [])} />
+          <div style={{ display: "block", padding: "0 .83rem" }} dangerouslySetInnerHTML={markUp(about[name], ["self-taught", "develop", "software", "California", "programming", "evolved", "daily life", "new", "VSauce", "StackOverflow", "convinced", "persevere", "documentation", "tutorial", "problem", "passion", "learning", "Python", "C\\+\\+", "JavaScript", "coding", "modualr", "excelent", "challenge", "UCI", "Developer", "intermediate", "API", "React", "Express", "Three.js", "projects", "enjoyment", "MongoDB", "Neo4J", "master", "LeetCode", "web servers", "Numpy", "pandas", "PyQt5", "web scraper", "algorithm", "libraries", "frameworks"])} />
         </div>
       </Fade>
     </Box>
@@ -125,7 +124,7 @@ function AboutMe({ scale, isMobile }) {
         <div style={tabcontst}>
           <Box sx={{ display: "flex", height: "fit-content", width: "100%", position: "relative", alignItems: "center", }}>
             <Tabs
-              orientation={isBottom ? "horizontal" : "vertical"}
+              orientation={"horizontal"}
               variant="standard"
               value={tabIndex}
               onChange={setTab}
@@ -136,11 +135,11 @@ function AboutMe({ scale, isMobile }) {
                 // border: "2px 0 0 0 solid black", 
                 height: "fit-content",
                 backgroundColor: "#577684",
-                borderRadius: (isBottom ? "0 0 10px 10px" : "10px 0 0 10px"),
+                borderRadius: "0 0 10px 10px",
                 boxShadow: "0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);",
                 position: "absolute",
-                transform: (isBottom ? "translateX(-50%) translateY(100%)" : "translateX(-100%)"),
-                ...(isBottom ? { left: "50%", bottom: "0" } : {left: "0", top: "unset"})
+                transform: "translateX(-50%) translateY(100%)",
+                ...{ left: "50%", bottom: "0" }
               }}
             >
               {tabs}

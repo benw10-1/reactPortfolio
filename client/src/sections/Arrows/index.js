@@ -20,6 +20,7 @@ function Arrows({ setRerender, layout, scale }) {
     }
 
     const keyHandle = (event) => {
+        if (event?.key === "Tab") return event.preventDefault()
         if (!event?.code?.match(/Arrow/gi) || scroller.isDisabled()) return false
         let [row, col] = getSelectedPos()
         if (!row && row !== 0) return

@@ -3,6 +3,7 @@ import React from "react";
 const iconst = {
     // borderRadius: "500px",
     // display: "block"
+    userSelect: "none",
 }
 
 function JS() {
