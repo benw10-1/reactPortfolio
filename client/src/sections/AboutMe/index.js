@@ -65,7 +65,7 @@ function InnerTab({ name, tabIndex }) {
       </div>
       <Fade in={collapse}>
         <div className="main-cont">
-          <div style={{ display: "block", padding: "0 .83rem" }} dangerouslySetInnerHTML={markUp(about[name], ["self-taught", "develop", "software", "California", "programming", "evolved", "daily life", "new", "VSauce", "StackOverflow", "convinced", "persevere", "documentation", "tutorial", "problem", "passion", "learning", "Python", "C\\+\\+", "JavaScript", "coding", "modualr", "excelent", "challenge", "UCI", "Developer", "intermediate", "API", "React", "Express", "Three.js", "projects", "enjoyment", "MongoDB", "Neo4J", "master", "LeetCode", "web servers", "Numpy", "pandas", "PyQt5", "web scraper", "algorithm", "libraries", "frameworks"])} />
+          <div style={{ display: "block", padding: "0 .83rem" }} dangerouslySetInnerHTML={markUp(about[name], ["self-taught", "develop", "software", "California", "programming", "evolved", "daily life", "new", "VSauce", "StackOverflow", "convinced", "persevere", "documentation", "tutorial", "problem", "passion", "learning", "Python", "C\\+\\+", "JavaScript", "coding", "modualr", "excelent", "challenge", "UCI", "Developer", "intermediate", "API", "React", "Express", "Three.js", "enjoyment", "MongoDB", "Neo4J", "master", "LeetCode", "web servers", "Numpy", "pandas", "PyQt5", "web scraper", "algorithm", "libraries", "frameworks"])} />
         </div>
       </Fade>
     </Box>
