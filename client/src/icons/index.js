@@ -8,26 +8,26 @@ const iconst = {
 
 function JS() {
     return (
-        <img src="/images/javascript.png" width={50} height={50} style={iconst} />
+        <img src="/images/javascript.webp" width={50} height={50} style={iconst} alt="js" />
     )
 }
 
 function Python() {
     return (
-        <img src="/images/python.png" width={50} height={50} style={iconst} />
+        <img src="/images/python.webp" width={50} height={50} style={iconst} alt="python" />
     )
 }
 
 function LinkedIn() {
     return (
-        <img src="/images/linkedIn.png" width={50} height={50} style={iconst} />
+        <img src="/images/linkedIn.webp" width={50} height={50} style={iconst} alt="linkedIn" />
     )
 }
 
 function Me({ style, scale }) {
     const mest = {
         borderRadius: "500px",
-        background: "url(/images/me.png)", 
+        background: "url(/images/me.webp)", 
         backgroundPosition: "center", 
         backgroundRepeat: "no-repeat", 
         backgroundSize: "cover", 
@@ -46,13 +46,13 @@ function GitHub(props) {
     const { scale } = props
 
     return (
-        <img src="/images/github.png" width={50 * scale} height={50 * scale} style={iconst} {...props} />
+        <img src="/images/github.webp" width={50 * scale} height={50 * scale} style={iconst} {...props} alt="github" />
     )
 }
 
 function Info() {
     return (
-        <img src="/images/info.png" width={50} height={50} style={iconst} />
+        <img src="/images/info.webp" width={50} height={50} style={iconst} alt="info" />
     )
 }
 

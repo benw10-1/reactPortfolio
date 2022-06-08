@@ -114,9 +114,9 @@ function AboutMe({ scale, isMobile }) {
     }
 
     const tabs = [
-      <Tab icon={<Info />} sx={tabIndex === 0 ? { ...tabst, ...selectedst } : { ...tabst, }} key={0} />,
-      <Tab icon={<JS />} sx={tabIndex === 1 ? { ...tabst, ...selectedst } : { ...tabst, }} key={1} />,
-      <Tab icon={<Python />} sx={tabIndex === 2 ? { ...tabst, ...selectedst } : { ...tabst, }} key={2} />
+      <Tab icon={<Info />} sx={tabIndex === 0 ? { ...tabst, ...selectedst } : { ...tabst, }} key={0} ariaLabel="Info" />,
+      <Tab icon={<JS />} sx={tabIndex === 1 ? { ...tabst, ...selectedst } : { ...tabst, }} key={1} ariaLabel="JavaScript" />,
+      <Tab icon={<Python />} sx={tabIndex === 2 ? { ...tabst, ...selectedst } : { ...tabst, }} key={2} ariaLabel="Python" />
     ]
 
     return (
@@ -139,7 +139,8 @@ function AboutMe({ scale, isMobile }) {
                 boxShadow: "0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 5px 8px 0px rgb(0 0 0 / 14%), 0px 1px 14px 0px rgb(0 0 0 / 12%);",
                 position: "absolute",
                 transform: "translateX(-50%) translateY(100%)",
-                ...{ left: "50%", bottom: "0" }
+                left: "50%",
+                bottom: 0,
               }}
             >
               {tabs}
