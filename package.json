@@ -4,9 +4,10 @@
     "description": "Fullstack portfolio app",
     "main": "server/server.js",
     "scripts": {
+      "build": "cd client && npm run build",
       "deploy": "git pull origin main && npm install",
       "install": "cd client && npm install && cd ../server && npm install",
-      "start": "cd server && npm run buildrun"
+      "start": "cd server && node server.js"
     },
     "license": "ISC",
     "dependencies": { }
