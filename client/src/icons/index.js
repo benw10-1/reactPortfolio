@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 
 const iconst = {
@@ -24,7 +25,7 @@ function LinkedIn() {
     )
 }
 
-function Me({ style, scale }) {
+function Me({ style }) {
     const mest = {
         borderRadius: "500px",
         background: "url(/images/me.webp)", 
@@ -32,8 +33,8 @@ function Me({ style, scale }) {
         backgroundRepeat: "no-repeat", 
         backgroundSize: "cover", 
         boxShadow: "0 8px 16px 0 rgb(0 0 0 / 15%)",
-        width: `${100 * scale}px`,
-        height: `${100 * scale}px`,
+        width: `${100 * 1}px`,
+        height: `${100 * 1}px`,
         marginBottom: "12.5px"
     }
 
@@ -43,10 +44,28 @@ function Me({ style, scale }) {
 }
 
 function GitHub(props) {
-    const { scale } = props
 
     return (
-        <img src="/images/github.webp" width={50 * scale} height={50 * scale} style={iconst} {...props} alt="github" />
+        <Box sx={{
+            width: {
+                xs: `${100/6}px`,
+                sm: "25px",
+                md: `${200/6}px`,
+                lg: "50px",
+                xl: `${350/6}px`,
+            },
+            height: {
+                xs: `${100/6}px`,
+                sm: "25px",
+                md: `${200/6}px`,
+                lg: "50px",
+                xl: `${350/6}px`,
+            },
+            bottom: "10%", 
+            position: "absolute"
+        }}>
+            <img src="/images/github.webp" width={"100%"} height={"100%"} style={iconst} {...props} alt="github" />
+        </Box>
     )
 }
 

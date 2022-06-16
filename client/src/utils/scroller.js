@@ -1,5 +1,12 @@
 import { Bezier } from "bezier-js"
 
+const bez = new Bezier(0, 0, .42, .0, .58, 1, 1, 1)
+function smoothFrom(v1, v2, p) {
+    let { y } = bez.compute(p)
+    // at 0 return v1, at 1, return v2
+    return v1 + (v2 - v1) * y
+}
+
 function scroller(el=window) {
     let scrolling = false
     let visited = new Set()
@@ -11,14 +18,7 @@ function scroller(el=window) {
             event.preventDefault()
         }
     })
-    // custom bez curve
-    const bez = new Bezier(0, 0, .42, .0, .58, 1, 1, 1)
 
-    function smoothFrom(v1, v2, p) {
-        let { y } = bez.compute(p)
-        // at 0 return v1, at 1, return v2
-        return v1 + (v2 - v1) * y
-    }
     async function animationLoop({ dest: [x, y], time=750 }) {
         let start, previous
         const [startx, starty] = [el.scrollX, el.scrollY]
@@ -104,6 +104,6 @@ function scroller(el=window) {
     }
 }
 
-export { scroller }
+export { scroller, smoothFrom }
 
-export default scroller() 
+export default scroller()

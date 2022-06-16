@@ -73,9 +73,10 @@ function Arrows({ setRerender, layout, scale }) {
     const scroll = (event) => {
         if (scroller.isDisabled() || event.ctrlKey) return false
         for (const x of event.composedPath()) {
-            const { scrollHeight, id, tagName, clientHeight } = x
+            const { scrollHeight, id, tagName, clientHeight, offsetHeight } = x
             if (id === "root" || tagName === "HTML" || x === document) continue
-            if (scrollHeight > clientHeight) return false
+
+            if (scrollHeight > offsetHeight) return false
         }
         let [row, col] = getSelectedPos()
         if (event.deltaY < 0) row -= 1
@@ -126,20 +127,30 @@ function Arrows({ setRerender, layout, scale }) {
     }
     const hashchange = (event) => {
         let sel = selectedRef.current ?? selected
-        let hash = window.location.hash.replace("#", "")
+        const hash = window.location.hash.replace("#", "")
+        console.log(hash)
         if (layout.some(x => x.some(y => hash === (y ? y.replace(" ", "") : y)))) {
             sel = hash
             select(hash)
         }
         setScrolling(true)
+        window.history.replaceState({}, window.location.origin, event.oldURL)
         scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {
             setScrolling(false)
-            window.history.replaceState({}, window.location.origin, event.oldURL)
         })
     }
     const loader = (event) => {
+        let sel = selectedRef.current ?? selected
+        const hash = window.location.hash.replace("#", "")
+
+        if (hash && layout.some(x => x.some(y => hash === (y ? y.replace(" ", "") : y)))) {
+            sel = hash
+            select(hash)
+        }
+        setScrolling(true)
         console.log("loader")
-        scroller.scrollToEl(document.getElementById((selectedRef.current ?? selected).replace(" ", ""))).then(() => {
+        window.history.replaceState({}, window.location.origin, window.location.href.replace(window.location.hash, ""))
+        scroller.scrollToEl(document.getElementById(sel.replace(" ", ""))).then(() => {
             setScrolling(false)
         })
     }
